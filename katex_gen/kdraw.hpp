@@ -2,7 +2,6 @@
 
 #include "serializer.hpp"
 
-using unary_func_t = const std::function<double(double)>;
 inline double defaut_next_step_func(double x) { return x + 1; }
 
 using dvec_t = std::vector<double>;
@@ -17,7 +16,7 @@ enum class border_style
 };
 
 void default_draw_point_func(serializer& s, const kgeo::point_t& p);
-inline constexpr kunit empty_draw_func(serializer&) { return 0; }
+inline kunit empty_draw_func(serializer&) { return 0; }
 
 serializer::draw_func_t draw_border(
 	kunit w, kunit h, kunit offset = 0_pt,
@@ -38,6 +37,11 @@ serializer::draw_func_t draw_line(kgeo::point_t p0, kgeo::point_t p1, const kgeo
 
 serializer::draw_func_t draw_lines(
 	const std::vector<kgeo::point_t>& ps,
+	const kgeo::draw_range_t& r
+);
+
+serializer::draw_func_t draw_polygon(
+	const kgeo::polygon_t& polygon,
 	const kgeo::draw_range_t& r
 );
 

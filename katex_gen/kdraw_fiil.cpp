@@ -23,39 +23,37 @@ static void _fill_xline(
 	if (y0 + h < r.bottom())return;
 	if (y0 < r.bottom())y0 = r.bottom();
 
-	sx -= r.left();
-	ex -= r.left();
 	if (ex < sx)std::swap(ex, sx);
 
-	if (_kfunc::dleq(ex, 0))return;
-	if (_kfunc::dgeq(sx, r.width()))return;
+	if (ex >= r.right())ex = r.right();
+	if (sx <= r.left())sx = r.left();
+
+	if (_kfunc::dleq(ex, r.left()))return;
+	if (_kfunc::dgeq(sx, r.right()))return;
+
 	kunit zoom_x = r.zoomx(), zoom_y = r.zoomy();
 
-	s.kern(sx * zoom_x);
+	if ((ex - sx) * zoom_x <= 1_pt)return;
+
+	s.kern((sx-r.left()) * zoom_x);
 	s.rule((ex - sx) * zoom_x, h * zoom_y, (y0 - r.bottom()) * zoom_y);
-	s.kern(-ex * zoom_x);
+	s.kern(-(ex-r.left()) * zoom_x);
 }
 
 serializer::draw_func_t fill_polygon(
-	const std::vector<kgeo::point_t>& ps,
+	const kgeo::polygon_t& ps,
 	const kgeo::draw_range_t& r,
 	double line_step
 )
 {
 	if (ps.size() < 3)return empty_draw_func;
-	if (line_step < 0)line_step = 1.0 / r.zoomy().val();
+	if (_kfunc::dleq(line_step, 0))line_step = 1.0 / r.zoomy().val();
 
-	double miny = ps[0].y, maxy = ps[0].y;
-	for (auto& p : ps)
-	{
-		miny = std::min(miny, p.y);
-		maxy = std::max(maxy, p.y);
-	}
-
-	return [miny, maxy, line_step, &ps, &r](serializer& s)
+	return [line_step, &ps, &r](serializer& s)
 	{
 		std::vector<std::list<NET>> nets;
 		std::list<AET> aets;
+		double miny = ps.min_y(), maxy = ps.max_y();
 
 		auto line_id_ofy = [&miny, &line_step](double y)
 		{
@@ -128,25 +126,6 @@ serializer::draw_func_t fill_polygon(
 			}
 		}
 		return 0;
-	};
-}
-
-serializer::draw_func_t fill_function(
-	const unary_func_t& x_oft,
-	const unary_func_t& y_oft,
-	const unary_func_t& nextt, const kgeo::range_t& t_range,
-	const kgeo::draw_range_t& r,
-	double line_step
-)
-{
-	return [&](serializer& s)
-	{
-		std::vector<kgeo::point_t> ps;
-		for (double t = t_range.left(); _kfunc::dleq(t, t_range.right()); t = nextt(t))
-		{
-			ps.push_back({ x_oft(t),y_oft(t) });
-		}
-		return fill_polygon(ps, r, line_step)(s);
 	};
 }
 

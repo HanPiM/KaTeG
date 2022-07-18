@@ -47,5 +47,8 @@
     <ClInclude Include="kdraw_easy_def.inl">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="kgeo_type.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

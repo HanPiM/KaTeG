@@ -126,6 +126,12 @@ void serializer::rule(kunit w, kunit h, kunit offset)
 	if (w == 0)return;
 	do_last_todo_op();
 
+	if (h < 0)
+	{
+		offset += h;
+		h = -h;
+	}
+
 	_os << "\\rule";
 	if (offset != 0)
 	{

@@ -140,6 +140,7 @@
     <ClInclude Include="kdraw.hpp" />
     <ClInclude Include="kdraw_fill.hpp" />
     <ClInclude Include="kdraw_easy_def.inl" />
+    <ClInclude Include="kgeo_type.hpp" />
     <ClInclude Include="ktype.hpp" />
     <ClInclude Include="serializer.hpp" />
     <ClInclude Include="s_predef.h" />

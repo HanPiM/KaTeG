@@ -107,8 +107,6 @@ serializer::draw_func_t draw_grid(
         sx += spos.x, ex -= spos.x;
         sy += spos.y, ey -= spos.y;
 
-        //std::cout << "sx " << sx << " ex " << ex << " sy " << sy << " ey " << ey << '\n';
-
         double yoffset = grid_range.bottom() - r.bottom();
         double xoffset = grid_range.left() - r.left();
 
@@ -126,7 +124,7 @@ serializer::draw_func_t draw_grid(
             s.rule(0.5_pt, h, yoffset * zoom_y);
             s.kern(-0.5_pt);
         }
-        return w - zoom_x * (x - ex) + xoffset * zoom_x;
+        return floor((ex - sx) / dx) * dx * zoom_x + (xoffset + spos.x) * zoom_x;
     };
 }
 
@@ -188,14 +186,16 @@ serializer::draw_func_t draw_line(kunit w, kunit h, kunit yoffset)
             double k = h.val() / w.val();
             if (bflag)k = -k;
 
-            double dot_siz = 0.8;
-
-            //return 0_pt;
+            double dot_siz = 1;
 
             kunit v = 0;
             for (; _kfunc::dleq(v.val(), w.val()); v += dot_siz)
             {
-                s.rule(dot_siz, dot_siz, yoffset + v * k);
+                s.rule(
+                    dot_siz,
+                    dot_siz * k,
+                    yoffset + v * k
+                );
             }
 
             return kunit(v);
@@ -291,6 +291,8 @@ serializer::draw_func_t draw_line(kgeo::point_t p0, kgeo::point_t p1, const kgeo
     
     if (rc.empty())return empty_draw_func;
     
+    if (!r.contain(p0) && !r.contain(p1))return empty_draw_func;
+
     if (r.contain(p0) && r.contain(p1)) {}
     else
     {
@@ -352,13 +354,31 @@ serializer::draw_func_t draw_line(kgeo::point_t p0, kgeo::point_t p1, const kgeo
 }
 
 serializer::draw_func_t draw_lines(
-    const std::vector<kgeo::point_t>& ps, const kgeo::draw_range_t& r
+    const std::vector<kgeo::point_t>& ps,
+    const kgeo::draw_range_t& r
 )
 {
     if (ps.size() < 2)return empty_draw_func;
     return [&](serializer& s) {
         auto last = ps.begin(), cur = ps.begin() + 1;
         kunit res = 0;
+        for (; cur != ps.end(); ++cur)
+        {
+            s.kern(-draw_line(*last, *cur, r)(s));
+            last = cur;
+        }
+        return res;
+    };
+}
+serializer::draw_func_t draw_polygon(
+    const kgeo::polygon_t& ps, const kgeo::draw_range_t& r
+)
+{
+    if (ps.size() < 2)return empty_draw_func;
+    return [&](serializer& s) {
+        auto last = ps.begin(), cur = ps.begin() + 1;
+        kunit res = 0;
+        s.kern(-draw_line(*last, ps.back(), r)(s));
         for (; cur != ps.end(); ++cur)
         {
             s.kern(-draw_line(*last, *cur, r)(s));
