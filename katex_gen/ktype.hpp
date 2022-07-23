@@ -2,8 +2,11 @@
 
 #include <iostream>
 #include <iomanip>
+#include <functional>
 
 #define _IC inline constexpr
+
+using unary_func_t = const std::function<double(double)>;
 
 namespace _kfunc
 {
@@ -24,6 +27,15 @@ namespace _kfunc
 	{
 		return dleq(b, a, eps);
 	}
+
+	inline bool isbad(double v)
+	{
+		return isnan(v) || isinf(v);
+	}
+
+	double find_root_secant(const unary_func_t& f, double x0, double x1, double eps = 1e-6);
+
+	double find_root_binary(const unary_func_t& f, double L, double R, double eps = 1e-5);
 };
 
 class kunit
@@ -84,16 +96,6 @@ public:
 private:
 
 	static _IC double _to_sp(double x) { return x / 65536.0; }
-
-	//_IC bool _divisible(double x, double eps = 1)const
-	//{
-	//	double tmp = _abs(_val);
-	//	return tmp - int(tmp / x) * x <= eps;
-	//}
-	//_IC double _as_unit(double base)const
-	//{
-	//	return _val / base;
-	//}
 
 	static _IC bool _eq(double a, double b)
 	{
@@ -158,14 +160,6 @@ struct kcolor
 };
 
 std::string kcolor_to_string(unsigned int col);
-
-struct karg_tok
-{
-	karg_tok(const std::string& s) :str(s) {};
-	const std::string& str;
-};
-
-using unary_func_t = const std::function<double(double)>;
 
 #include "kgeo_type.hpp"
 

@@ -134,7 +134,10 @@
     <ClCompile Include="basic_func.cpp" />
     <ClCompile Include="kdraw.cpp" />
     <ClCompile Include="kdraw_fiil.cpp" />
+    <ClCompile Include="kgeo_type.cpp" />
+    <ClCompile Include="khelp_draw_function.cpp" />
     <ClCompile Include="test.cpp" />
+    <ClCompile Include="_kfunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="kdraw.hpp" />

@@ -93,24 +93,6 @@ struct point_t
 		return *this;
 	}
 
-	//_IC bool in_rect(const rect_t& r)const noexcept
-	//{
-	//	return r.contain(*this);
-	//}
-	//constexpr void cut_into(const rect_t& r)noexcept
-	//{
-	//	if (x < r.left())x = r.left();
-	//	if (x > r.right())x = r.right();
-	//	if (y < r.bottom())y = r.bottom();
-	//	if (y > r.top())y = r.top();
-	//}
-	//constexpr point_t get_cut_into(const rect_t& r)const noexcept
-	//{
-	//	point_t res = *this;
-	//	res.cut_into(r);
-	//	return res;
-	//}
-
 	_IC void assign(double xx, double yy)noexcept
 	{
 		x = xx, y = yy;
@@ -153,7 +135,7 @@ public:
 	_IC void xrange(const range_t& xr)noexcept { _xr = xr; }
 	_IC void yrange(const range_t& yr)noexcept { _yr = yr; }
 
-	constexpr bool empty()noexcept
+	constexpr bool empty()const noexcept
 	{
 		return _xr.empty() || _yr.empty();
 	}
@@ -284,6 +266,7 @@ private:
 
 }
 
+class serializer;
 
 namespace kgeo
 {
@@ -305,15 +288,16 @@ public:
 		const unary_func_t& x_oft,
 		const unary_func_t& y_oft,
 		const range_t& t_range,
+		double mindx = -1,
 		double step = -1
-	)
-	{
-		if (step <= 0)step = t_range.width() / 25.0;
-		for (double t = t_range.left(); _kfunc::dleq(t, t_range.right()); t += step)
-		{
-			emplace_back(x_oft(t), y_oft(t));
-		}
-	}
+	);
+
+	polygon_t(
+		const unary_func_t& x_oft,
+		const unary_func_t& y_oft,
+		const range_t& t_range,
+		const serializer& s, const draw_range_t& r
+	);
 
 	double min_x()const
 	{

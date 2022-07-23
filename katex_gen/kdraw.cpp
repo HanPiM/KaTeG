@@ -121,24 +121,26 @@ serializer::draw_func_t draw_grid(
         for (x = sx; x <= ex; x += dx)
         {
             if (!_kfunc::deq(x, sx))s.kern(zoom_x * dx);
-            s.rule(0.5_pt, h, yoffset * zoom_y);
-            s.kern(-0.5_pt);
+            s.rule(1_pt, h, yoffset * zoom_y);
+            s.kern(-1_pt);
         }
         return floor((ex - sx) / dx) * dx * zoom_x + (xoffset + spos.x) * zoom_x;
     };
 }
 
-serializer::draw_func_t draw_line(kunit w, kunit h, kunit yoffset)
+extern const kunit line_offset_of[10];
+// of[text_size::xxx]
+const kunit line_offset_of[10] =
 {
-    // of[text_size::xxx]
-    static const constexpr kunit offset_of[] =
-    {
-        2_pt,
+    2_pt,
 
-        1_pt,1.4_pt,1.6_pt,1.8_pt,
-        2.4_pt,2.8_pt,3.5_pt,
-        4_pt, 5_pt
-    };
+    1_pt,1.4_pt,1.6_pt,1.8_pt,
+    2.4_pt,2.8_pt,3.5_pt,
+    4_pt, 5_pt
+};
+
+serializer::draw_func_t _draw_line(kunit w, kunit h, kunit yoffset)
+{
 
     /* debug code:
     $
@@ -175,7 +177,7 @@ serializer::draw_func_t draw_line(kunit w, kunit h, kunit yoffset)
         auto item_size = static_cast<uint32_t>(s.item_size());
 
         // rule(w,h) Îó²î¹ý´ó ¾Ü¾ø»æÖÆ
-        if (_kfunc::dleq(w.abs().val(), 2 * offset_of[item_size].val() + 1.5))
+        if (_kfunc::dleq(w.abs().val(), 2 * line_offset_of[item_size].val() + 1.5))
         {
             if (w == 0)
             {
@@ -189,7 +191,7 @@ serializer::draw_func_t draw_line(kunit w, kunit h, kunit yoffset)
             double dot_siz = 1;
 
             kunit v = 0;
-            for (; _kfunc::dleq(v.val(), w.val()); v += dot_siz)
+            for (; islessequal(v.val() + dot_siz, w.val()); v += dot_siz)
             {
                 s.rule(
                     dot_siz,
@@ -202,7 +204,7 @@ serializer::draw_func_t draw_line(kunit w, kunit h, kunit yoffset)
         }
         //std::cout << "w " << w.abs() << " minoffset " << 2 * offset_of[item_size].val() << '\n';
 
-        s.kern(offset_of[item_size]);
+        s.kern(line_offset_of[item_size]);
 
         if (yraise != 0)
         {
@@ -217,16 +219,16 @@ serializer::draw_func_t draw_line(kunit w, kunit h, kunit yoffset)
         s.begin_empty_context();
 
         {
-            s.rule(w - 2 * offset_of[item_size], h);
+            s.rule(w - 2 * line_offset_of[item_size], h);
         }
         s.end_context();
         s.add_char('}');
 
         if (s.mode() & serializer_mode::for_discuss)
         {
-            s.kern(offset_of[item_size] * 2);
+            s.kern(line_offset_of[item_size] * 2);
         }
-        else s.kern(offset_of[item_size]);
+        else s.kern(line_offset_of[item_size]);
 
         if (yoffset != 0)
         {
@@ -258,7 +260,7 @@ serializer::draw_func_t draw_line(kgeo::point_t p0, kgeo::point_t p1, const kgeo
         return[zoom_x, zoom_y, yl, yr, xoffset, yoffset](serializer& s)
         {
             s.kern(xoffset);
-            return xoffset + draw_line(0, (yr - yl) * zoom_y, yoffset)(s);
+            return xoffset + _draw_line(0, (yr - yl) * zoom_y, yoffset)(s);
         };
     }
 
@@ -281,7 +283,7 @@ serializer::draw_func_t draw_line(kgeo::point_t p0, kgeo::point_t p1, const kgeo
         return [zoom_x, xl, xr, yoffset](serializer& s)
         {
             s.kern(xl * zoom_x);
-            return xl * zoom_x + draw_line((xr - xl) * zoom_x, 0, yoffset)(s);
+            return xl * zoom_x + _draw_line((xr - xl) * zoom_x, 0, yoffset)(s);
         };
     }
 
@@ -349,7 +351,7 @@ serializer::draw_func_t draw_line(kgeo::point_t p0, kgeo::point_t p1, const kgeo
     return [w,h,xoffset,yoffset](serializer& s)
     {
         s.kern(xoffset);
-        return xoffset + draw_line(w, h, yoffset)(s);
+        return xoffset + _draw_line(w, h, yoffset)(s);
     };
 }
 
@@ -448,22 +450,6 @@ serializer::draw_func_t draw_func_oft(
         for (auto t : ts)
         {
             ps.emplace_back(x_oft(t), y_oft(t));
-        }
-        return draw_lines(ps, r)(s);
-    };
-}
-
-serializer::draw_func_t draw_func_oft(
-    const unary_func_t& x_oft, const unary_func_t& y_oft,
-    const unary_func_t& nextt, const kgeo::range_t& t_range,
-    const kgeo::draw_range_t& r
-){
-    return [&](serializer& s)
-    {
-        std::vector<kgeo::point_t> ps;
-        for (double t = t_range.left(); _kfunc::dleq(t, t_range.right()); t = nextt(t))
-        {
-            ps.push_back({ x_oft(t),y_oft(t) });
         }
         return draw_lines(ps, r)(s);
     };

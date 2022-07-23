@@ -46,7 +46,7 @@ kitem_size serializer::item_size(kitem_size siz)
 		"large","Large","LARGE","huge","Huge"
 	};
 
-	do_last_todo_op();
+	_do_last_todo_op();
 
 	_add_char_nocheck('\\');
 	_add_str_nocheck(name_of[static_cast<uint32_t>(siz)]);
@@ -54,9 +54,9 @@ kitem_size serializer::item_size(kitem_size siz)
 	return tmp;
 }
 
-void serializer::do_last_todo_op()
+void serializer::_do_last_todo_op()
 {
-	if (no_todo_op())return;
+	if (_no_todo_op())return;
 	if (_last_todo_op_type() == _todo_type::close_op)return;
 
 	_do_last_todo_op_nocheck();
@@ -64,7 +64,7 @@ void serializer::do_last_todo_op()
 
 void serializer::end_context()
 {
-	while (!no_todo_op())
+	while (!_no_todo_op())
 	{
 		if (_last_todo_op_type() == _todo_type::close_op)
 		{
@@ -77,7 +77,7 @@ void serializer::end_context()
 
 void serializer::end_all_context()
 {
-	while (!no_todo_op())
+	while (!_no_todo_op())
 	{
 		end_context();
 	}
@@ -96,7 +96,7 @@ void serializer::color(unsigned int hex_rgb)
 		_todos.top().first = f;
 	else
 	{
-		do_last_todo_op();
+		_do_last_todo_op();
 		_push_todo_op(_todo_type::color, f, nullptr);
 	}
 
@@ -111,7 +111,7 @@ void serializer::kern(kunit x)
 	}
 	else
 	{
-		do_last_todo_op();
+		_do_last_todo_op();
 		_push_todo_op(_todo_type::kern, [this](const _todo_info& info)
 			{
 				auto& v = info.data_of<_todo_type::kern>();
@@ -124,7 +124,7 @@ void serializer::kern(kunit x)
 void serializer::rule(kunit w, kunit h, kunit offset)
 {
 	if (w == 0)return;
-	do_last_todo_op();
+	_do_last_todo_op();
 
 	if (h < 0)
 	{
@@ -142,14 +142,14 @@ void serializer::rule(kunit w, kunit h, kunit offset)
 
 void serializer::begin_empty_context(char beg, char end)
 {
-	do_last_todo_op();
+	_do_last_todo_op();
 	_os << beg;
 	_push_todo_op(_todo_type::close_op, [this, end](const _todo_info&) {_os << end; }, nullptr);
 }
 
 void serializer::begin_raisebox_context(kunit x)
 {
-	do_last_todo_op();
+	_do_last_todo_op();
 	if (x != 0)
 	{
 		_os << "\\raisebox{" << x << "}";
@@ -178,7 +178,7 @@ static constexpr kunit boxed_offset_of[] =
 
 void serializer::begin_raisemath_context(kunit x)
 {
-	do_last_todo_op();
+	_do_last_todo_op();
 	if (x == 0)
 	{
 		begin_empty_context();
@@ -240,7 +240,7 @@ void serializer::begin_raisemath_context(kunit x)
 
 void serializer::begin_x_overlapping_context(kalign_style align_style)
 {
-	do_last_todo_op();
+	_do_last_todo_op();
 	_add_str_nocheck("\\math");
 	char ch = 0;
 
@@ -266,7 +266,7 @@ void serializer::begin_x_overlapping_context(kalign_style align_style)
 
 void serializer::begin_y_overlapping_context()
 {
-	do_last_todo_op();
+	_do_last_todo_op();
 	_add_str_nocheck("\\smash");
 	begin_empty_context();
 }

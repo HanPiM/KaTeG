@@ -24,7 +24,7 @@ struct serializer_mode
 		for_discuss = (1 << 2),
 		for_inline = (1 << 3),
 		inherit_item_size = (1 << 4),
-		discuss_mode = for_discuss | for_inline | inherit_item_size
+		discuss_mode = for_discuss | no_def | inherit_item_size
 	};
 };
 
@@ -47,7 +47,7 @@ public:
 		return _mode;
 	}
 
-	inline kitem_size item_size() { return _item_size; }
+	inline kitem_size item_size()const { return _item_size; }
 	kitem_size item_size(kitem_size siz);
 
 	void output_to(std::ostream& os)const
@@ -72,17 +72,14 @@ public:
 		s += ss.str();
 	}
 	
-	inline bool no_todo_op()const { return _todos.empty(); }
-
-	void do_last_todo_op();
 
 	void add_str(const std::string& s)
 	{
-		do_last_todo_op(); _add_str_nocheck(s);
+		_do_last_todo_op(); _add_str_nocheck(s);
 	}
 	void add_char(char ch)
 	{
-		do_last_todo_op(); _add_char_nocheck(ch);
+		_do_last_todo_op(); _add_char_nocheck(ch);
 	}
 	void call_predef(const std::string& key)
 	{
@@ -133,7 +130,7 @@ public:
 	// for_inline 模式下不可用
 	void begin_inline_math_context();
 
-	bool support_math_context()
+	bool support_math_context()const
 	{
 		return !(
 			(_mode & serializer_mode::for_discuss) &&
@@ -169,6 +166,12 @@ public:
 
 	using draw_func_t = std::function<kunit(serializer&)>;
 	kunit run(const draw_func_t& func);
+
+	serializer& operator<<(const draw_func_t& func)
+	{
+		func(*this);
+		return *this;
+	}
 
 private:
 
@@ -224,17 +227,9 @@ private:
 
 	std::stack<std::pair<_todo_func_t, _todo_info> > _todos;
 
-	std::stack<std::pair<
-		_todo_type, std::pair<std::function<void()>,
-			std::variant<
-				nullptr_t,
-				std::monostate, std::monostate, std::monostate,
-				kunit
-			>
-		>
-	> > _need_todo__;
+	inline bool _no_todo_op()const { return _todos.empty(); }
 
-	//std::remove_reference_t<decltype(_need_todo.top())> _last_need_todo;
+	void _do_last_todo_op();
 
 	static constexpr const char* _name_of(_todo_type t)
 	{
@@ -270,12 +265,12 @@ private:
 	template<typename _t>
 	void _push_todo_op(_todo_type t, _todo_func_t f, const _t& data)
 	{
-		do_last_todo_op();
+		_do_last_todo_op();
 		_todos.push(std::make_pair(f, _todo_info(t, data)));
 	}
 	_todo_type _last_todo_op_type()
 	{
-		return no_todo_op()
+		return _no_todo_op()
 			? _todo_type::empty_flag
 			: _todos.top().second.type();
 	}

@@ -27,6 +27,15 @@
     <ClCompile Include="kdraw_fiil.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="_kfunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="khelp_draw_function.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="kgeo_type.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ktype.hpp">

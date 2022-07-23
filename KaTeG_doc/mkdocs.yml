@@ -5,7 +5,9 @@ theme:
   custom_dir: overrides
   features:
     - navigation.tabs
+    - navigation.tabs.sticky # 粘性导航选项卡
     - content.code.annotate # 代码注释
+
   palette:
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
@@ -29,7 +31,7 @@ extra:
 
 plugins:
   - search
-  - git-revision-date
+ # - git-revision-date
 
 markdown_extensions:
   - meta
@@ -74,3 +76,15 @@ extra_javascript:
 
 repo_url: https://github.com/HanPiM/KaTeG
 repo_name: HanPiM/KaTeG
+
+# 内容
+
+nav:
+  - 简介: index.md
+  - 用法: usage.md
+  - 常量: constant.md
+  - 类型: types/index.md
+  - 绘制函数: 
+    - 绘制类: draw_func/draw.md
+    - 填充类: draw_func/fill.md
+    - 辅助函数: draw_func/help.md
