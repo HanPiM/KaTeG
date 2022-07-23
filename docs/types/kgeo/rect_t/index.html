@@ -572,7 +572,7 @@
 <h2 id="_1">公有函数<a class="headerlink" href="#_1" title="指向本节的链接">&para;</a></h2>
 <h3 id="_2">构造<a class="headerlink" href="#_2" title="指向本节的链接">&para;</a></h3>
 <p><code>rect_t()</code> 一个空的矩形</p>
-<p><code>rect_t(double x1, double y1, double x2, double y2)</code>/<code>rect_t(const</code><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a><code>&amp; s, const</code><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a><code>&amp; e)</code></p>
+<p><code>rect_t(double x1, double y1, double x2, double y2)</code>/<code>rect_t(const</code><small>kgeo::</small><a href="../point_t"><code>point_t</code></a><code>&amp; s, const</code><small>kgeo::</small><a href="../point_t"><code>point_t</code></a><code>&amp; e)</code></p>
 <p>由两个点确定的矩形，两点连线所成线段即为对角线。</p>
 <p><code>rect_t(const std::initializer_list&lt;double&gt; vals)</code></p>
 <p>同上，但两点坐标由列表给出，形如 <code>{x0,y0,x1,y1}</code>。</p>
@@ -580,21 +580,21 @@
 <p><code>rect_t operator &amp;(const rect_t&amp; rc)const</code></p>
 <p><code>const rect_t&amp; operator&amp;=(const rect_t&amp; rc)</code></p>
 <p>与矩形 rc 相交所得矩形</p>
-<p><code>friend</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>operator-(const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; p, const rect_t&amp; ref_sys)</code></p>
-<p><code>friend const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; operator-=(</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; p, const rect_t&amp; ref_sys)</code></p>
+<p><code>friend</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>operator-(const</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; p, const rect_t&amp; ref_sys)</code></p>
+<p><code>friend const</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; operator-=(</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; p, const rect_t&amp; ref_sys)</code></p>
 <p>p 相对于 ref_sys 的位置</p>
 <p><code>std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const rect_t&amp; rc)</code></p>
 <p>向流输出矩形，格式为 <code>{left,bottom,right,top}</code></p>
 <h3 id="getter">getter<a class="headerlink" href="#getter" title="指向本节的链接">&para;</a></h3>
 <h4 id="_4">[检测器]<a class="headerlink" href="#_4" title="指向本节的链接">&para;</a></h4>
 <p><code>bool empty()const</code> 是否为空</p>
-<p><code>bool contain(const</code><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a><code>&amp; p)const</code> 是否包含点 p</p>
+<p><code>bool contain(const</code><small>kgeo::</small><a href="../point_t"><code>point_t</code></a><code>&amp; p)const</code> 是否包含点 p</p>
 <h4 id="_5">[边界]<a class="headerlink" href="#_5" title="指向本节的链接">&para;</a></h4>
-<p><code>const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; xrange()const</code> x方向上的范围</p>
-<p><code>const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; yrange()const</code> y方向上的范围</p>
+<p><code>const</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; xrange()const</code> x方向上的范围</p>
+<p><code>const</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; yrange()const</code> y方向上的范围</p>
 <hr />
-<p><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a> <code>spos()const</code> 左下角坐标</p>
-<p><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a> <code>epos()const</code> 右下角坐标</p>
+<p><small>kgeo::</small><a href="../point_t"><code>point_t</code></a> <code>spos()const</code> 左下角坐标</p>
+<p><small>kgeo::</small><a href="../point_t"><code>point_t</code></a> <code>epos()const</code> 右下角坐标</p>
 <hr />
 <p><code>double left()const</code> 左边界</p>
 <p><code>double right()const</code> 右边界</p>
@@ -605,11 +605,11 @@
 <p><code>double height()const</code> 高度</p>
 <h3 id="setter">setter<a class="headerlink" href="#setter" title="指向本节的链接">&para;</a></h3>
 <h4 id="_7">[边界]<a class="headerlink" href="#_7" title="指向本节的链接">&para;</a></h4>
-<p><code>void xrange(const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; xr)</code> 设置 x 方向上的范围</p>
-<p><code>void yrange(const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; yr)</code> 设置 y 方向上的范围</p>
+<p><code>void xrange(const</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; xr)</code> 设置 x 方向上的范围</p>
+<p><code>void yrange(const</code><small>kgeo::</small><a href="../range_t"><code>range_t</code></a><code>&amp; yr)</code> 设置 y 方向上的范围</p>
 <hr />
-<p><code>void spos(const</code><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a><code>&amp; pos)</code> 设置左下角坐标</p>
-<p><code>void epos(const</code><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a><code>&amp; pos)</code>设置右下角坐标</p>
+<p><code>void spos(const</code><small>kgeo::</small><a href="../point_t"><code>point_t</code></a><code>&amp; pos)</code> 设置左下角坐标</p>
+<p><code>void epos(const</code><small>kgeo::</small><a href="../point_t"><code>point_t</code></a><code>&amp; pos)</code>设置右下角坐标</p>
 <hr />
 <p><code>void left(double v)</code> 设置左边界</p>
 <p><code>void right(double v)</code> 设置右边界</p>

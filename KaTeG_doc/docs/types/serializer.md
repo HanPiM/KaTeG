@@ -18,7 +18,7 @@
 
 `serializer(uint32_t mode=0,kitem_size siz=kitem_size::normal)`
 
-指定初始的 [模式](/constant/#serializer_mode-struct_enumbit_flag)，[大小](/constant/#kitem_size-enum-class)
+指定初始的 [模式](../../constant/#serializer_mode-struct_enumbit_flag)，[大小](../../constant/#kitem_size-enum-class)
 
 ### 运算重载
 
@@ -103,7 +103,7 @@
 
 	横向重叠环境（消除横向碰撞箱）讨论区环境下超高部分会下移
 
-	`align_style` 向哪个方向对齐，参见 [kalign_style](/constant/#kalign_style-enum-class)
+	`align_style` 向哪个方向对齐，参见 [kalign_style](../../constant/#kalign_style-enum-class)
 
 - `void begin_y_overlapping_context()` 纵向重叠环境（消除纵向碰撞箱）
 

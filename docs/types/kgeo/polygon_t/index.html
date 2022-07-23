@@ -516,16 +516,16 @@
 <h1 id="kgeopolygon_t"><small>kgeo::</small>polygon_t<a class="headerlink" href="#kgeopolygon_t" title="指向本节的链接">&para;</a></h1>
 <p>由顶点描述的多边形</p>
 <h2 id="_1">基类<a class="headerlink" href="#_1" title="指向本节的链接">&para;</a></h2>
-<p><code>public std::vector&lt;</code><small>kgeo::</small><a href="/types/kgeo/point_t"><code>point_t</code></a><code>&gt;</code></p>
+<p><code>public std::vector&lt;</code><small>kgeo::</small><a href="../../kgeo/point_t"><code>point_t</code></a><code>&gt;</code></p>
 <h2 id="_2">公有函数<a class="headerlink" href="#_2" title="指向本节的链接">&para;</a></h2>
 <h3 id="_3">构造<a class="headerlink" href="#_3" title="指向本节的链接">&para;</a></h3>
 <p><code>polygon_t()</code> 默认构造函数</p>
 <p><code>polygon_t(const std::vector&lt;point_t&gt;&amp; v)</code> 由多个点按顺序构造</p>
 <p><code>polygon_t(std::initializer_list&lt;point_t&gt; _list)</code> 由列表中的点构造</p>
 <p><code>polygon_t(
-    const</code><a href="/types/#unary_func_t"><code>unary_func_t</code></a><code>&amp; x_oft,
-    const</code><a href="/types/#unary_func_t"><code>unary_func_t</code></a><code>&amp; y_oft,
-    const</code><small>kgeo::</small><a href="/types/kgeo/range_t"><code>range_t</code></a><code>&amp; t_range,
+    const</code><a href="../../#unary_func_t"><code>unary_func_t</code></a><code>&amp; x_oft,
+    const</code><a href="../../#unary_func_t"><code>unary_func_t</code></a><code>&amp; y_oft,
+    const</code><small>kgeo::</small><a href="../../kgeo/range_t"><code>range_t</code></a><code>&amp; t_range,
     double step = -1
 )</code></p>
 <p>由给出的函数确定多边形：将给定函数视为参数方程： $\begin{cases}

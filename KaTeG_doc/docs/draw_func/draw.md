@@ -31,7 +31,7 @@ serializer::draw_func_t draw_lines(
 
 按顺序依次绘制相邻的两个点。
 
-**最小精度** 前置：[draw_line](/draw_func/draw/#draw_line)
+**最小精度** 前置：[draw_line](./#draw_line)
 
 ### 网格（draw_grid）
 
@@ -93,4 +93,4 @@ serializer::draw_func_t draw_func_oft(
 绘制参数方程 $\begin{cases}
 x=\operatorname{x\_oft}(t)\\
 y=\operatorname{y\_oft}(t)
-\end{cases}$， $t$ 从 `ts` 中取，得到对应的多个点，然后调用 [draw_lines](/draw_func/draw/#draw_lines) 绘制。
+\end{cases}$， $t$ 从 `ts` 中取，得到对应的多个点，然后调用 [draw_lines](./#draw_lines) 绘制。

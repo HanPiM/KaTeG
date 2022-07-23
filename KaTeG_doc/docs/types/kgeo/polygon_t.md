@@ -4,7 +4,7 @@
 
 ## 基类
 
-`public std::vector<`<small>kgeo::</small>[`point_t`](/types/kgeo/point_t)`>`
+`public std::vector<`<small>kgeo::</small>[`point_t`](../../kgeo/point_t)`>`
 
 ## 公有函数
 
@@ -17,9 +17,9 @@
 `polygon_t(std::initializer_list<point_t> _list)` 由列表中的点构造
 
 `polygon_t(
-	const `[`unary_func_t`](/types/#unary_func_t)`& x_oft,
-    const `[`unary_func_t`](/types/#unary_func_t)`& y_oft,
-    const `<small>kgeo::</small>[`range_t`](/types/kgeo/range_t)`& t_range,
+	const `[`unary_func_t`](../../#unary_func_t)`& x_oft,
+    const `[`unary_func_t`](../../#unary_func_t)`& y_oft,
+    const `<small>kgeo::</small>[`range_t`](../../kgeo/range_t)`& t_range,
     double step = -1
 )
 `

@@ -22,6 +22,6 @@ serializer::draw_func_t fill_polygon(
 
 内部实现：多边形扫描线填充算法
 
-**最小精确** 前置：[serializer::rule](/types/serializer/#katex)
+**最小精确** 前置：[serializer::rule](../../types/serializer/#katex)
 
 ### 曲线

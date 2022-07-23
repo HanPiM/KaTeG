@@ -3,11 +3,11 @@
 绘制范围的信息
 
 !!! warning "缩放比限制"
-	由于 KaTeX 对于较小对象的绘制精度极低（部分甚至无法绘制），请确保缩放后能满足 [绘制函数](/draw_func) 的需求。默认最小缩放比为 1pt。
+	由于 KaTeX 对于较小对象的绘制精度极低（部分甚至无法绘制），请确保缩放后能满足 [绘制函数](../../../draw_func/draw) 的需求。默认最小缩放比为 1pt。
 
 ## 基类
 
-<small>kgeo::</small>[`rect_t`](/types/kgeo/rect_t)
+<small>kgeo::</small>[`rect_t`](../../../types/kgeo/rect_t)
 
 ## 公有函数
 
